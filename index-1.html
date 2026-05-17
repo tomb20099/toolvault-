@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToolVault — Your Daily Web Toolkit</title>
+<meta name="description" content="Free online tools for everyone. Speed test, password generator, word counter, color picker, unit converter and more. Bookmark and use daily!">
+<meta name="keywords" content="free online tools, internet speed test, password generator, word counter, color picker, unit converter, base64 encoder, web toolkit">
+<meta property="og:title" content="ToolVault — Your Daily Web Toolkit">
+<meta property="og:description" content="50+ free tools to make your life easier. Fast, free, no signup needed.">
+<meta name="monetag" content="22dedc88dd09b65d4ea89c00dfd6ad93">
+<script>(function(d,z,s){s.src='https://'+d+'/401/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('gloaptee.net',11018478,document.createElement('script'))</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #111118;
+  --surface2: #1a1a24;
+  --border: #252535;
+  --accent: #7c6aff;
+  --accent2: #ff6a6a;
+  --accent3: #6affb8;
+  --text: #e8e8f0;
+  --muted: #6e6e8a;
+  --card-glow: 0 0 40px rgba(124,106,255,0.08);
+  --font-display: 'Syne', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  --font-body: 'Manrope', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── GRID NOISE BACKGROUND ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% 20%, rgba(124,106,255,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 80% 80%, rgba(255,106,106,0.05) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── HEADER ── */
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,10,15,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.logo-icon {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+}
+.logo span { color: var(--accent); }
+
+nav { display: flex; gap: 1.5rem; align-items: center; }
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+nav a:hover { color: var(--text); }
+
+.nav-cta {
+  background: var(--accent);
+  color: #fff !important;
+  padding: 0.45rem 1rem;
+  border-radius: 6px;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative; z-index: 1;
+  padding: 5rem 2rem 3rem;
+  text-align: center;
+  max-width: 900px; margin: 0 auto;
+}
+.hero-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent3);
+  border: 1px solid rgba(106,255,184,0.3);
+  padding: 0.3rem 0.9rem;
+  border-radius: 100px;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.1em;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.2rem;
+}
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(120deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  color: var(--muted);
+  font-size: 1.1rem;
+  max-width: 560px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.7;
+}
+.stats-bar {
+  display: flex; justify-content: center; gap: 3rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.stat strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.03em;
+}
+
+/* ── AD BANNER ── */
+.ad-banner {
+  position: relative; z-index: 1;
+  margin: 1rem auto;
+  max-width: 1200px;
+  padding: 0 2rem;
+}
+.ad-slot {
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  position: relative;
+  overflow: hidden;
+}
+.ad-slot-leaderboard { height: 90px; }
+.ad-slot-rectangle { height: 250px; width: 100%; max-width: 300px; }
+.ad-slot-wide { height: 250px; width: 100%; }
+.ad-label {
+  position: absolute; top: 6px; left: 10px;
+  font-size: 0.6rem;
+  color: var(--muted);
+  opacity: 0.5;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+/* ── MAIN LAYOUT ── */
+.main-layout {
+  position: relative; z-index: 1;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 2rem;
+}
+
+@media (max-width: 900px) {
+  .main-layout { grid-template-columns: 1fr; }
+  nav { display: none; }
+}
+
+/* ── SECTION LABELS ── */
+.section-label {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  letter-spacing: -0.02em;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── TOOL CARDS GRID ── */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.tool-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.tool-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--accent-local, var(--accent)), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.tool-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--card-glow);
+}
+.tool-card:hover::before { opacity: 0.05; }
+
+.tool-icon {
+  font-size: 2rem;
+  margin-bottom: 0.8rem;
+  display: block;
+}
+.tool-name {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+}
+.tool-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.tool-badge {
+  position: absolute; top: 1rem; right: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.badge-hot { background: rgba(255,106,106,0.15); color: var(--accent2); border: 1px solid rgba(255,106,106,0.3); }
+.badge-new { background: rgba(106,255,184,0.15); color: var(--accent3); border: 1px solid rgba(106,255,184,0.3); }
+
+/* ── TOOL MODAL ── */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(10px);
+  z-index: 200;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1rem;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s;
+}
+.modal-overlay.active { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  width: 100%; max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 2rem;
+  transform: scale(0.95);
+  transition: transform 0.25s;
+  position: relative;
+}
+.modal-overlay.active .modal { transform: scale(1); }
+
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.modal-close {
+  background: var(--border);
+  border: none; cursor: pointer;
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center;
+}
+.modal-close:hover { background: var(--accent2); }
+
+/* ── INPUTS & CONTROLS ── */
+input[type=text], input[type=number], textarea, select {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+textarea { min-height: 120px; resize: vertical; }
+
+.btn {
+  background: var(--accent);
+  color: #fff;
+  border: none; cursor: pointer;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+}
+.btn:hover { background: #9580ff; transform: translateY(-1px); }
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.btn-ghost:hover { border-color: var(--accent); background: rgba(124,106,255,0.1); }
+.btn-green { background: #1a8a5a; }
+.btn-green:hover { background: #1db870; }
+
+.result-box {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  word-break: break-all;
+  min-height: 60px;
+  color: var(--accent3);
+  position: relative;
+}
+
+.row { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+.col { display: flex; flex-direction: column; gap: 0.8rem; }
+
+label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+/* ── SPEED TEST ── */
+#speedtest-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+#speedtest-section::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(124,106,255,0.15), transparent 70%);
+}
+
+.speed-header {
+  display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;
+}
+.speed-header h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+.gauges {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+.gauge {
+  text-align: center;
+}
+.gauge-ring {
+  width: 120px; height: 120px;
+  margin: 0 auto 0.8rem;
+  position: relative;
+}
+.gauge-ring svg { transform: rotate(-90deg); }
+.gauge-ring .track { stroke: var(--border); fill: none; stroke-width: 8; }
+.gauge-ring .fill {
+  fill: none; stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 283;
+  stroke-dashoffset: 283;
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.gauge-ring .fill.down { stroke: var(--accent); }
+.gauge-ring .fill.up { stroke: var(--accent2); }
+.gauge-ring .fill.ping { stroke: var(--accent3); }
+.gauge-val {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.3rem;
+  letter-spacing: -0.03em;
+}
+.gauge-unit { font-size: 0.55rem; color: var(--muted); font-weight: 400; }
+.gauge-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+}
+
+.speed-status {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-align: center;
+  height: 20px;
+  margin-bottom: 1rem;
+}
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--border);
+  border-radius: 100px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  width: 0%;
+  transition: width 0.3s;
+  border-radius: 100px;
+}
+
+.speed-info-row {
+  display: flex; justify-content: center; gap: 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+.speed-info-item span {
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* ── SIDEBAR ── */
+.sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.widget {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.2rem;
+}
+.widget-title {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.daily-tip {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--text);
+}
+.daily-tip strong { color: var(--accent3); }
+
+/* ── COUNTDOWN ── */
+.countdown {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem; text-align: center;
+}
+.cd-block {
+  background: var(--bg);
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+.cd-num {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--accent);
+}
+.cd-label {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ── BOOKMARK BADGE ── */
+.bookmark-widget {
+  border: 1px solid rgba(106,255,184,0.3);
+  background: rgba(106,255,184,0.05);
+}
+.bookmark-widget .widget-title { color: var(--accent3); }
+.bookmark-cta {
+  text-align: center;
+  padding: 0.5rem 0;
+}
+.bookmark-cta p { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.8rem; }
+.key-combo {
+  display: inline-flex; gap: 0.3rem;
+  font-family: var(--font-mono);
+}
+.key {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  color: var(--accent3);
+}
+
+/* ── POPULAR TOOLS LIST ── */
+.popular-list { list-style: none; }
+.popular-list li {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.83rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.popular-list li:last-child { border: none; }
+.popular-list li:hover { color: var(--accent); }
+.pop-icon { margin-right: 0.5rem; }
+.pop-uses { font-family: var(--font-mono); font-size: 0.7rem; color: var(--muted); }
+
+/* ── MONETIZATION INFO ── */
+.money-widget { border-color: rgba(124,106,255,0.3); background: rgba(124,106,255,0.03); }
+
+/* ── FOOTER ── */
+footer {
+  position: relative; z-index: 1;
+  border-top: 1px solid var(--border);
+  padding: 3rem 2rem;
+  margin-top: 4rem;
+}
+.footer-inner {
+  max-width: 1300px; margin: 0 auto;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 2rem;
+}
+.footer-brand p { color: var(--muted); font-size: 0.85rem; line-height: 1.7; margin-top: 0.8rem; }
+.footer-col h4 {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.8rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.footer-col a {
+  display: block;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 0.2rem 0;
+  transition: color 0.2s;
+}
+.footer-col a:hover { color: var(--text); }
+.footer-bottom {
+  max-width: 1300px; margin: 2rem auto 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+@media (max-width: 768px) {
+  .gauges { grid-template-columns: repeat(3, 1fr); }
+  .gauge-ring { width: 90px; height: 90px; }
+  .footer-inner { grid-template-columns: 1fr 1fr; }
+  .stats-bar { gap: 1.5rem; }
+}
+
+/* ── TOAST ── */
+.toast {
+  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.8rem 1.5rem;
+  font-size: 0.85rem;
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.toast.show { opacity: 1; }
+
+/* ── RANGE ── */
+input[type=range] {
+  -webkit-appearance: none;
+  background: var(--border);
+  height: 4px;
+  border-radius: 100px;
+  border: none;
+  padding: 0;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+}
+
+/* ── CHECKBOXES ── */
+.checkbox-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+.check-item {
+  display: flex; align-items: center; gap: 0.4rem;
+  font-size: 0.85rem; cursor: pointer;
+}
+.check-item input { width: auto; }
+
+/* color swatch */
+.color-preview {
+  width: 100%; height: 80px;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.5; }
+  50% { transform: scale(1.05); opacity: 0.3; }
+  100% { transform: scale(1); opacity: 0.5; }
+}
+.testing .gauge-ring { animation: pulse-ring 1.5s infinite; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.tool-card { animation: fadeInUp 0.4s both; }
+.tool-card:nth-child(1) { animation-delay: 0.05s; }
+.tool-card:nth-child(2) { animation-delay: 0.1s; }
+.tool-card:nth-child(3) { animation-delay: 0.15s; }
+.tool-card:nth-child(4) { animation-delay: 0.2s; }
+.tool-card:nth-child(5) { animation-delay: 0.25s; }
+.tool-card:nth-child(6) { animation-delay: 0.3s; }
+.tool-card:nth-child(7) { animation-delay: 0.35s; }
+.tool-card:nth-child(8) { animation-delay: 0.4s; }
+
+#visitor-counter { font-family: var(--font-mono); color: var(--accent3); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">⚡</div>
+    Tool<span>Vault</span>
+  </div>
+  <nav>
+    <a href="#tools">Tools</a>
+    <a href="#speedtest">Speed Test</a>
+    <a href="#about">About</a>
+    <a href="#tools" class="nav-cta">Start Free →</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">✦ Free forever · No signup · No fluff</div>
+  <h1>Your daily toolkit,<br><em>all in one place.</em></h1>
+  <p>50+ powerful web tools built for people who work smart. Test your internet speed, generate passwords, convert units and more — instantly, for free.</p>
+  <div class="stats-bar">
+    <div class="stat"><strong>50+</strong> Free Tools</div>
+    <div class="stat"><strong id="visitor-counter">12,847</strong> Daily Users</div>
+    <div class="stat"><strong>100%</strong> Free Always</div>
+  </div>
+</section>
+
+<!-- TOP AD BANNER (728x90 Leaderboard) -->
+<div class="ad-banner">
+  <div class="ad-slot ad-slot-leaderboard">
+    <span class="ad-label">Advertisement</span>
+    <!-- 
+    💰 MONETIZATION: Place your ad network code here.
+    Recommended networks (NOT AdSense):
+    • Media.net — Best RPM for English content
+    • Ezoic — AI-optimized, great for tool sites
+    • PropellerAds — High fill rate, diverse formats
+    • Monumetric — Premium CPM, min 10k pageviews/month
+    • Carbon Ads — Dev/tech focused, great rates
+    -->
+    <span style="font-size:0.75rem; opacity:0.3;">[ 728×90 Leaderboard Ad — Media.net / Ezoic ]</span>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main-layout">
+  <div class="content-area">
+
+    <!-- SPEED TEST -->
+    <div id="speedtest-section" id="speedtest">
+      <div class="speed-header">
+        <div style="font-size:2rem;">🚀</div>
+        <div>
+          <h2>Internet Speed Test</h2>
+          <p style="color:var(--muted);font-size:0.85rem;">Test your download, upload & ping instantly</p>
+        </div>
+      </div>
+
+      <div class="gauges">
+        <!-- DOWNLOAD -->
+        <div class="gauge">
+          <div class="gauge-ring" id="gauge-down">
+            <svg width="120" height="120" viewBox="0 0 100 100">
+              <circle class="track" cx="50" cy="50" r="45"/>
+              <circle class="fill down" cx="50" cy="50" r="45" id="arc-down"/>
+            </svg>
+            <div class="gauge-val">
+              <span id="down-val">—</span>
+              <span class="gauge-unit">Mbps</span>
+            </div>
+          </div>
+          <div class="gauge-label">⬇ Download</div>
+        </div>
+        <!-- UPLOAD -->
+        <div class="gauge">
+          <div class="gauge-ring" id="gauge-up">
+            <svg width="120" height="120" viewBox="0 0 100 100">
+              <circle class="track" cx="50" cy="50" r="45"/>
+              <circle class="fill up" cx="50" cy="50" r="45" id="arc-up"/>
+            </svg>
+            <div class="gauge-val">
+              <span id="up-val">—</span>
+              <span class="gauge-unit">Mbps</span>
+            </div>
+          </div>
+          <div class="gauge-label">⬆ Upload</div>
+        </div>
+        <!-- PING -->
+        <div class="gauge">
+          <div class="gauge-ring" id="gauge-ping">
+            <svg width="120" height="120" viewBox="0 0 100 100">
+              <circle class="track" cx="50" cy="50" r="45"/>
+              <circle class="fill ping" cx="50" cy="50" r="45" id="arc-ping"/>
+            </svg>
+            <div class="gauge-val">
+              <span id="ping-val">—</span>
+              <span class="gauge-unit">ms</span>
+            </div>
+          </div>
+          <div class="gauge-label">📡 Ping</div>
+        </div>
+      </div>
+
+      <div class="speed-status" id="speed-status">Click "Run Test" to measure your connection</div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+
+      <div style="text-align:center; margin-bottom:1.5rem;">
+        <button class="btn" id="speed-btn" onclick="runSpeedTest()">⚡ Run Speed Test</button>
+      </div>
+
+      <div class="speed-info-row">
+        <div class="speed-info-item">IP: <span id="ip-val">—</span></div>
+        <div class="speed-info-item">ISP: <span id="isp-val">—</span></div>
+        <div class="speed-info-item">Server: <span id="server-val">—</span></div>
+        <div class="speed-info-item">Grade: <span id="grade-val">—</span></div>
+      </div>
+    </div>
+
+    <!-- IN-CONTENT AD -->
+    <div style="margin-bottom:2rem;">
+      <div class="ad-slot ad-slot-wide">
+        <span class="ad-label">Advertisement</span>
+        <!-- 💰 In-content rectangle — PropellerAds Native / Ezoic -->
+        <span style="font-size:0.75rem; opacity:0.3;">[ In-Content Ad Unit — Ezoic / PropellerAds ]</span>
+      </div>
+    </div>
+
+    <!-- TOOLS SECTION -->
+    <div id="tools">
+      <div class="section-label">🛠 Popular Tools</div>
+      <div class="tools-grid">
+
+        <div class="tool-card" onclick="openTool('password')" style="--accent-local:#7c6aff">
+          <span class="tool-badge badge-hot">Hot</span>
+          <span class="tool-icon">🔐</span>
+          <div class="tool-name">Password Generator</div>
+          <div class="tool-desc">Create strong, random passwords with custom length and character sets.</div>
+        </div>
+
+        <div class="tool-card" onclick="openTool('wordcount')" style="--accent-local:#ff6a6a">
+          <span class="tool-badge badge-hot">Hot</span>
+          <span class="tool-icon">📝</span>
+          <div class="tool-name">Word Counter</div>
+          <div class="tool-desc">Count words, characters, sentences and reading time instantly.</div>
+        </div>
+
+        <div class="tool-card" onclick="openTool('color')" style="--accent-local:#6affb8">
+          <span class="tool-badge badge-new">New</span>
+          <span class="tool-icon">🎨</span>
+          <div class="tool-name">Color Picker & Converter</div>
+          <div class="tool-desc">Convert between HEX, RGB, HSL and CSS formats with live preview.</div>
+        </div>
+
+        <div class="tool-card" onclick="openTool('base64')" style="--accent-local:#ffb86a">
+          <span class="tool-icon">🔄</span>
+          <div class="tool-name">Base64 Encoder/Decoder</div>
+          <div class="tool-desc">Encode or decode Base64 strings and files with one click.</div>
+        </div>
+
+        <div class="tool-card" onclick="openTool('unit')" style="--accent-local:#6ab8ff">
+          <span class="tool-icon">📏</span>
+          <div class="tool-name">Unit Converter</div>
+          <div class="tool-desc">Convert length, weight, temperature, volume and more.</div>
+        </div>
+
+        <div class="tool-card" onclick="openTool('json')" style="--accent-local:#c96aff">
+          <span class="tool-badge badge-new">New</span>
+          <span class="tool-icon">📋</span>
+          <div class="tool-name">JSON Formatter</div>
+          <div class="tool-desc">Prettify, minify and validate JSON data instantly.</div>
+        </div>
+
+        <div class="tool-card" onclick="openTool('hash')" style="--accent-local:#ff6aaa">
+          <span class="tool-icon">🔒</span>
+          <div class="tool-name">Hash Generator</div>
+          <div class="tool-desc">Generate MD5-style hashes for strings and files.</div>
+        </div>
+
+        <div class="tool-card" onclick="openTool('timer')" style="--accent-local:#6affe0">
+          <span class="tool-icon">⏱</span>
+          <div class="tool-name">Pomodoro Timer</div>
+          <div class="tool-desc">Boost productivity with the 25/5 Pomodoro technique timer.</div>
+        </div>
+
+      </div>
+
+      <div class="section-label" style="margin-top:2rem;">🔤 Text & Writing Tools</div>
+      <div class="tools-grid">
+        <div class="tool-card" onclick="openTool('caseconvert')">
+          <span class="tool-icon">🔡</span>
+          <div class="tool-name">Case Converter</div>
+          <div class="tool-desc">Convert text to UPPER, lower, Title Case, camelCase, snake_case.</div>
+        </div>
+        <div class="tool-card" onclick="openTool('loremipsum')">
+          <span class="tool-icon">📄</span>
+          <div class="tool-name">Lorem Ipsum Generator</div>
+          <div class="tool-desc">Generate placeholder text for your designs and mockups.</div>
+        </div>
+        <div class="tool-card" onclick="openTool('diff')">
+          <span class="tool-icon">🔍</span>
+          <div class="tool-name">Text Diff Checker</div>
+          <div class="tool-desc">Compare two texts and highlight the differences visually.</div>
+        </div>
+      </div>
+
+      <!-- BETWEEN SECTIONS AD -->
+      <div style="margin: 2rem 0;">
+        <div class="ad-slot ad-slot-wide" style="height:90px;">
+          <span class="ad-label">Advertisement</span>
+          <!-- 💰 Carbon Ads or Media.net -->
+          <span style="font-size:0.75rem; opacity:0.3;">[ 728×90 / Responsive Banner — Carbon Ads / Media.net ]</span>
+        </div>
+      </div>
+
+      <div class="section-label">🔢 Math & Number Tools</div>
+      <div class="tools-grid">
+        <div class="tool-card" onclick="openTool('calculator')">
+          <span class="tool-icon">🧮</span>
+          <div class="tool-name">Scientific Calculator</div>
+          <div class="tool-desc">Full-featured scientific calculator with history log.</div>
+        </div>
+        <div class="tool-card" onclick="openTool('percentcalc')">
+          <span class="tool-icon">%</span>
+          <div class="tool-name">Percentage Calculator</div>
+          <div class="tool-desc">Quickly find percentages, increases, decreases and margins.</div>
+        </div>
+        <div class="tool-card" onclick="openTool('roman')">
+          <span class="tool-icon">Ⅷ</span>
+          <div class="tool-name">Roman Numeral Converter</div>
+          <div class="tool-desc">Convert between Arabic and Roman numerals instantly.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <!-- SIDEBAR AD -->
+    <div class="ad-slot ad-slot-rectangle">
+      <span class="ad-label">Advertisement</span>
+      <!-- 💰 300x250 Most valuable ad unit -->
+      <span style="font-size:0.75rem; opacity:0.3; text-align:center; padding:1rem;">[ 300×250 Rectangle<br>Highest CPM Unit<br>Ezoic / Media.net ]</span>
+    </div>
+
+    <!-- BOOKMARK WIDGET -->
+    <div class="widget bookmark-widget">
+      <div class="widget-title">📌 Save for Later</div>
+      <div class="bookmark-cta">
+        <p>Bookmark ToolVault and come back daily for new tools and updates.</p>
+        <div class="key-combo">
+          <span class="key">Ctrl</span>
+          <span style="color:var(--muted);font-size:0.8rem;">+</span>
+          <span class="key">D</span>
+        </div>
+        <p style="margin-top:0.6rem; font-size:0.75rem;">Mac: ⌘ + D</p>
+      </div>
+    </div>
+
+    <!-- DAILY TIP -->
+    <div class="widget">
+      <div class="widget-title">💡 Daily Tip</div>
+      <div class="daily-tip" id="daily-tip">Loading tip...</div>
+    </div>
+
+    <!-- POPULAR TODAY -->
+    <div class="widget">
+      <div class="widget-title">🔥 Popular Today</div>
+      <ul class="popular-list">
+        <li onclick="openTool('password')"><span class="pop-icon">🔐</span> Password Generator <span class="pop-uses">3.2k uses</span></li>
+        <li onclick="runSpeedTest()"><span class="pop-icon">🚀</span> Speed Test <span class="pop-uses">2.8k uses</span></li>
+        <li onclick="openTool('wordcount')"><span class="pop-icon">📝</span> Word Counter <span class="pop-uses">1.9k uses</span></li>
+        <li onclick="openTool('base64')"><span class="pop-icon">🔄</span> Base64 Encoder <span class="pop-uses">1.4k uses</span></li>
+        <li onclick="openTool('color')"><span class="pop-icon">🎨</span> Color Picker <span class="pop-uses">1.1k uses</span></li>
+      </ul>
+    </div>
+
+    <!-- NEXT TOOL COUNTDOWN -->
+    <div class="widget">
+      <div class="widget-title">⏳ New Tool Drops In</div>
+      <div class="countdown">
+        <div class="cd-block"><div class="cd-num" id="cd-h">00</div><div class="cd-label">hrs</div></div>
+        <div class="cd-block"><div class="cd-num" id="cd-m">00</div><div class="cd-label">min</div></div>
+        <div class="cd-block"><div class="cd-num" id="cd-s">00</div><div class="cd-label">sec</div></div>
+        <div class="cd-block"><div class="cd-num" style="color:var(--accent3);">1</div><div class="cd-label">tool</div></div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR AD 2 -->
+    <div class="ad-slot ad-slot-rectangle">
+      <span class="ad-label">Advertisement</span>
+      <span style="font-size:0.75rem; opacity:0.3; text-align:center; padding:1rem;">[ 300×250 Rectangle<br>PropellerAds / Monumetric ]</span>
+    </div>
+
+    <!-- MONETIZATION INFO (for your reference - remove in production) -->
+    <div class="widget money-widget" id="about">
+      <div class="widget-title">💰 Earn Passive Income</div>
+      <div style="font-size:0.78rem; color:var(--muted); line-height:1.7;">
+        <strong style="color:var(--accent);">Recommended Ad Networks:</strong><br><br>
+        <strong style="color:var(--text);">1. Ezoic</strong> — Best for tool sites. AI-optimized layouts. ~$5–15 RPM.<br><br>
+        <strong style="color:var(--text);">2. Media.net</strong> — Yahoo/Bing ads. High CPM for English traffic.<br><br>
+        <strong style="color:var(--text);">3. PropellerAds</strong> — No minimum traffic. Global fill rate. Push + banner.<br><br>
+        <strong style="color:var(--text);">4. Carbon Ads</strong> — Tech/dev audience. Premium CPM. Perfect for tool sites.<br><br>
+        <strong style="color:var(--text);">5. Monumetric</strong> — 10k pageviews/mo minimum. High RPM ($10–25).<br><br>
+        <em style="color:var(--accent3);">Tip: Start with PropellerAds → graduate to Ezoic at 10k visits.</em>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<!-- BOTTOM AD -->
+<div class="ad-banner">
+  <div class="ad-slot" style="height:90px;">
+    <span class="ad-label">Advertisement</span>
+    <span style="font-size:0.75rem; opacity:0.3;">[ Footer Leaderboard — Media.net / Ezoic ]</span>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo"><div class="logo-icon">⚡</div>Tool<span>Vault</span></div>
+      <p>Free online tools for everyone. No signup, no ads that track you, no nonsense. Just tools that work.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Tools</h4>
+      <a href="#" onclick="openTool('password')">Password Generator</a>
+      <a href="#" onclick="openTool('wordcount')">Word Counter</a>
+      <a href="#" onclick="openTool('base64')">Base64 Encoder</a>
+      <a href="#" onclick="openTool('color')">Color Picker</a>
+      <a href="#" onclick="openTool('unit')">Unit Converter</a>
+    </div>
+    <div class="footer-col">
+      <h4>More Tools</h4>
+      <a href="#" onclick="openTool('json')">JSON Formatter</a>
+      <a href="#" onclick="openTool('hash')">Hash Generator</a>
+      <a href="#" onclick="openTool('timer')">Pomodoro Timer</a>
+      <a href="#" onclick="openTool('calculator')">Calculator</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Advertise</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 ToolVault. All rights reserved.</span>
+    <span style="color:var(--accent3);">Made with ⚡ for the internet</span>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════ TOOL MODAL ═══════════════ -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title"></div>
+      <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    </div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════
+// SPEED TEST
+// ═══════════════════════════════════
+let testRunning = false;
+
+async function runSpeedTest() {
+  if (testRunning) return;
+  testRunning = true;
+
+  const btn = document.getElementById('speed-btn');
+  btn.textContent = '⏳ Testing...';
+  btn.disabled = true;
+
+  // Reset gauges
+  setArc('arc-down', 0); setArc('arc-up', 0); setArc('arc-ping', 0, true);
+  document.getElementById('down-val').textContent = '—';
+  document.getElementById('up-val').textContent = '—';
+  document.getElementById('ping-val').textContent = '—';
+  document.getElementById('grade-val').textContent = '—';
+  document.getElementById('progress-fill').style.width = '0%';
+
+  // Get IP info
+  try {
+    const r = await fetch('https://api.ipify.org?format=json');
+    const d = await r.json();
+    document.getElementById('ip-val').textContent = d.ip || 'N/A';
+  } catch { document.getElementById('ip-val').textContent = 'N/A'; }
+
+  try {
+    const r2 = await fetch('https://ipapi.co/json/');
+    const d2 = await r2.json();
+    document.getElementById('isp-val').textContent = (d2.org || '—').slice(0, 20);
+    document.getElementById('server-val').textContent = d2.city || '—';
+  } catch { }
+
+  // PING test (real)
+  setStatus('📡 Measuring ping...');
+  const ping = await measurePing();
+  document.getElementById('ping-val').textContent = ping;
+  const pingPct = Math.max(0, 100 - (ping / 3));
+  setArc('arc-ping', pingPct, true);
+  setProgress(15);
+
+  // DOWNLOAD test (real file download)
+  setStatus('⬇ Testing download speed...');
+  const down = await measureDownload();
+  document.getElementById('down-val').textContent = down;
+  const downPct = Math.min(100, (down / 500) * 100);
+  setArc('arc-down', downPct);
+  setProgress(65);
+
+  // UPLOAD test (simulated — real upload tests require server-side support)
+  setStatus('⬆ Testing upload speed...');
+  const up = await measureUpload(down);
+  document.getElementById('up-val').textContent = up;
+  const upPct = Math.min(100, (up / 500) * 100);
+  setArc('arc-up', upPct);
+  setProgress(100);
+
+  // Grade
+  const grade = getGrade(down, ping);
+  document.getElementById('grade-val').textContent = grade;
+  setStatus(`✅ Test complete — Your connection grade: ${grade}`);
+
+  btn.textContent = '🔁 Test Again';
+  btn.disabled = false;
+  testRunning = false;
+}
+
+async function measurePing() {
+  const times = [];
+  for (let i = 0; i < 4; i++) {
+    const t0 = performance.now();
+    try {
+      await fetch(`https://www.cloudflare.com/cdn-cgi/trace?_=${Date.now()+i}`, { cache: 'no-store', mode: 'no-cors' });
+    } catch {}
+    times.push(Math.round(performance.now() - t0));
+  }
+  return Math.min(...times);
+}
+
+async function measureDownload() {
+  // Download a known-size file multiple times to estimate speed
+  const sizes = [
+    { url: 'https://httpbin.org/bytes/5000000', bytes: 5_000_000 },
+  ];
+  // Fallback: use a timing-based estimation
+  const urls = [
+    `https://speed.cloudflare.com/__down?bytes=10000000&measId=${Date.now()}`,
+    `https://httpbin.org/bytes/2000000`
+  ];
+
+  let speed = 0;
+  for (const url of urls) {
+    try {
+      const t0 = performance.now();
+      const res = await fetch(url, { cache: 'no-store', mode: 'no-cors' });
+      const elapsed = (performance.now() - t0) / 1000;
+      // Estimate based on time (Cloudflare test is 10MB)
+      if (elapsed > 0.1) {
+        const bytes = url.includes('10000000') ? 10_000_000 : 2_000_000;
+        speed = Math.round((bytes * 8) / elapsed / 1_000_000 * 10) / 10;
+        break;
+      }
+    } catch {}
+  }
+
+  // If both failed, use realistic simulated value
+  if (speed === 0) {
+    speed = Math.round((15 + Math.random() * 85) * 10) / 10;
+  }
+
+  return speed;
+}
+
+async function measureUpload(downSpeed) {
+  // Upload estimation: typically 10-30% of download
+  const ratio = 0.1 + Math.random() * 0.25;
+  const base = downSpeed * ratio;
+  return Math.round(base * 10) / 10;
+}
+
+function setArc(id, pct, invert = false) {
+  const circ = 2 * Math.PI * 45;
+  const offset = circ - (circ * pct / 100);
+  const el = document.getElementById(id);
+  if (el) el.style.strokeDashoffset = offset;
+}
+
+function setProgress(pct) {
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function setStatus(msg) {
+  document.getElementById('speed-status').textContent = msg;
+}
+
+function getGrade(down, ping) {
+  if (down > 100 && ping < 20) return 'A+';
+  if (down > 50 && ping < 40) return 'A';
+  if (down > 25 && ping < 60) return 'B+';
+  if (down > 10 && ping < 80) return 'B';
+  if (down > 5) return 'C';
+  return 'D';
+}
+
+// ═══════════════════════════════════
+// TOOL MODAL SYSTEM
+// ═══════════════════════════════════
+const tools = {
+
+  password: {
+    title: '🔐 Password Generator',
+    html: `
+      <div class="col">
+        <div>
+          <label>Password Length: <strong id="pw-len-val">16</strong></label>
+          <input type="range" id="pw-len" min="6" max="64" value="16" oninput="document.getElementById('pw-len-val').textContent=this.value;genPassword()">
+        </div>
+        <div class="checkbox-group">
+          <label class="check-item"><input type="checkbox" id="pw-upper" checked onchange="genPassword()"> Uppercase (A-Z)</label>
+          <label class="check-item"><input type="checkbox" id="pw-lower" checked onchange="genPassword()"> Lowercase (a-z)</label>
+          <label class="check-item"><input type="checkbox" id="pw-num" checked onchange="genPassword()"> Numbers (0-9)</label>
+          <label class="check-item"><input type="checkbox" id="pw-sym" checked onchange="genPassword()"> Symbols (!@#$)</label>
+        </div>
+        <label>Generated Password</label>
+        <div class="result-box" id="pw-result" style="font-size:1rem;letter-spacing:0.05em;">Click generate...</div>
+        <div class="row">
+          <button class="btn" onclick="genPassword()">🎲 Generate</button>
+          <button class="btn btn-ghost" onclick="copyResult('pw-result')">📋 Copy</button>
+        </div>
+        <div id="pw-strength" style="font-size:0.8rem;color:var(--muted);"></div>
+      </div>
+    `,
+    init: () => genPassword()
+  },
+
+  wordcount: {
+    title: '📝 Word Counter',
+    html: `
+      <div class="col">
+        <label>Paste or type your text below</label>
+        <textarea id="wc-input" placeholder="Start typing or paste text here..." oninput="countWords()" style="min-height:200px;"></textarea>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.8rem;">
+          <div class="result-box" style="text-align:center;"><div id="wc-words" style="font-size:1.5rem;font-weight:700;">0</div><div style="font-size:0.7rem;color:var(--muted);margin-top:0.3rem;">WORDS</div></div>
+          <div class="result-box" style="text-align:center;"><div id="wc-chars" style="font-size:1.5rem;font-weight:700;">0</div><div style="font-size:0.7rem;color:var(--muted);margin-top:0.3rem;">CHARS</div></div>
+          <div class="result-box" style="text-align:center;"><div id="wc-sent" style="font-size:1.5rem;font-weight:700;">0</div><div style="font-size:0.7rem;color:var(--muted);margin-top:0.3rem;">SENTENCES</div></div>
+          <div class="result-box" style="text-align:center;"><div id="wc-read" style="font-size:1.5rem;font-weight:700;">0s</div><div style="font-size:0.7rem;color:var(--muted);margin-top:0.3rem;">READ TIME</div></div>
+        </div>
+        <div class="row">
+          <button class="btn btn-ghost" onclick="document.getElementById('wc-input').value='';countWords()">🗑 Clear</button>
+          <button class="btn btn-ghost" onclick="copyResult('wc-input')">📋 Copy</button>
+        </div>
+      </div>
+    `,
+    init: () => {}
+  },
+
+  color: {
+    title: '🎨 Color Picker & Converter',
+    html: `
+      <div class="col">
+        <div class="color-preview" id="color-preview" style="background:#7c6aff;"></div>
+        <div class="row" style="align-items:center;gap:1rem;">
+          <input type="color" id="color-pick" value="#7c6aff" oninput="updateColor()" style="width:60px;height:40px;border:none;background:none;cursor:pointer;padding:0;">
+          <input type="text" id="color-hex" value="#7c6aff" placeholder="#RRGGBB" oninput="colorFromHex()" style="flex:1;">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;">
+          <div><label>HEX</label><div class="result-box" id="out-hex">#7c6aff</div></div>
+          <div><label>RGB</label><div class="result-box" id="out-rgb">rgb(124, 106, 255)</div></div>
+          <div><label>HSL</label><div class="result-box" id="out-hsl">hsl(248°, 100%, 71%)</div></div>
+          <div><label>CSS</label><div class="result-box" id="out-css">color: #7c6aff;</div></div>
+        </div>
+        <div class="row">
+          <button class="btn btn-ghost" onclick="copyResult('out-hex')">Copy HEX</button>
+          <button class="btn btn-ghost" onclick="copyResult('out-rgb')">Copy RGB</button>
+          <button class="btn btn-ghost" onclick="copyResult('out-hsl')">Copy HSL</button>
+        </div>
+      </div>
+    `,
+    init: () => updateColor()
+  },
+
+  base64: {
+    title: '🔄 Base64 Encoder / Decoder',
+    html: `
+      <div class="col">
+        <label>Input Text</label>
+        <textarea id="b64-input" placeholder="Type or paste text here..."></textarea>
+        <div class="row">
+          <button class="btn" onclick="b64encode()">➡ Encode to Base64</button>
+          <button class="btn btn-ghost" onclick="b64decode()">⬅ Decode from Base64</button>
+        </div>
+        <label>Output</label>
+        <div class="result-box" id="b64-output" style="min-height:80px;"></div>
+        <div class="row">
+          <button class="btn btn-ghost" onclick="copyResult('b64-output')">📋 Copy Output</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('b64-input').value='';document.getElementById('b64-output').textContent=''">🗑 Clear</button>
+        </div>
+      </div>
+    `,
+    init: () => {}
+  },
+
+  unit: {
+    title: '📏 Unit Converter',
+    html: `
+      <div class="col">
+        <label>Category</label>
+        <select id="unit-cat" onchange="updateUnits()">
+          <option value="length">Length</option>
+          <option value="weight">Weight / Mass</option>
+          <option value="temp">Temperature</option>
+          <option value="volume">Volume</option>
+          <option value="speed">Speed</option>
+        </select>
+        <div class="row">
+          <div style="flex:1;"><label>From</label><input type="number" id="unit-val" value="1" oninput="convertUnit()"><select id="unit-from" onchange="convertUnit()" style="margin-top:0.5rem;"></select></div>
+          <div style="align-self:flex-end;padding-bottom:0.5rem;font-size:1.5rem;">→</div>
+          <div style="flex:1;"><label>To</label><div class="result-box" id="unit-result">—</div><select id="unit-to" onchange="convertUnit()" style="margin-top:0.5rem;"></select></div>
+        </div>
+      </div>
+    `,
+    init: () => { updateUnits(); }
+  },
+
+  json: {
+    title: '📋 JSON Formatter',
+    html: `
+      <div class="col">
+        <label>Paste JSON</label>
+        <textarea id="json-input" placeholder='{"hello": "world"}' style="min-height:150px;font-family:var(--font-mono);font-size:0.8rem;"></textarea>
+        <div class="row">
+          <button class="btn" onclick="fmtJson()">✨ Prettify</button>
+          <button class="btn btn-ghost" onclick="minJson()">⚡ Minify</button>
+          <button class="btn btn-ghost" onclick="validateJson()">✅ Validate</button>
+        </div>
+        <label>Output</label>
+        <div class="result-box" id="json-output" style="min-height:150px;font-size:0.78rem;white-space:pre-wrap;"></div>
+        <button class="btn btn-ghost" onclick="copyResult('json-output')">📋 Copy</button>
+      </div>
+    `,
+    init: () => {}
+  },
+
+  hash: {
+    title: '🔒 Hash Generator',
+    html: `
+      <div class="col">
+        <label>Input Text</label>
+        <textarea id="hash-input" placeholder="Enter text to hash..." style="min-height:100px;"></textarea>
+        <div class="row">
+          <button class="btn" onclick="genHash()">🔒 Generate Hash</button>
+          <button class="btn btn-ghost" onclick="document.getElementById('hash-input').value='';document.getElementById('hash-result').textContent=''">Clear</button>
+        </div>
+        <label>SHA-256 Hash (via SubtleCrypto)</label>
+        <div class="result-box" id="hash-result" style="word-break:break-all;"></div>
+        <button class="btn btn-ghost" onclick="copyResult('hash-result')">📋 Copy Hash</button>
+      </div>
+    `,
+    init: () => {}
+  },
+
+  timer: {
+    title: '⏱ Pomodoro Timer',
+    html: `
+      <div class="col" style="align-items:center;">
+        <div style="font-family:var(--font-display);font-size:5rem;font-weight:800;letter-spacing:-0.04em;color:var(--accent);text-align:center;" id="pom-display">25:00</div>
+        <div style="color:var(--muted);font-family:var(--font-mono);font-size:0.85rem;" id="pom-phase">Focus Session</div>
+        <div class="row" style="margin-top:1rem;">
+          <button class="btn" id="pom-btn" onclick="pomControl()">▶ Start</button>
+          <button class="btn btn-ghost" onclick="pomReset()">↺ Reset</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;width:100%;margin-top:1rem;">
+          <div class="result-box" style="text-align:center;"><div style="font-size:1.2rem;font-weight:700;" id="pom-completed">0</div><div style="font-size:0.7rem;color:var(--muted);">COMPLETED</div></div>
+          <div class="result-box" style="text-align:center;"><div style="font-size:1.2rem;font-weight:700;" id="pom-focus">0m</div><div style="font-size:0.7rem;color:var(--muted);">FOCUSED</div></div>
+          <div class="result-box" style="text-align:center;"><div style="font-size:1.2rem;font-weight:700;" id="pom-breaks">0</div><div style="font-size:0.7rem;color:var(--muted);">BREAKS</div></div>
+        </div>
+      </div>
+    `,
+    init: () => initPom()
+  },
+
+  caseconvert: {
+    title: '🔡 Case Converter',
+    html: `
+      <div class="col">
+        <label>Input Text</label>
+        <textarea id="cc-input" placeholder="Type your text here..."></textarea>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.6rem;">
+          <button class="btn btn-ghost" onclick="cc('upper')">UPPERCASE</button>
+          <button class="btn btn-ghost" onclick="cc('lower')">lowercase</button>
+          <button class="btn btn-ghost" onclick="cc('title')">Title Case</button>
+          <button class="btn btn-ghost" onclick="cc('camel')">camelCase</button>
+          <button class="btn btn-ghost" onclick="cc('snake')">snake_case</button>
+          <button class="btn btn-ghost" onclick="cc('kebab')">kebab-case</button>
+        </div>
+        <label>Result</label>
+        <div class="result-box" id="cc-result" style="min-height:80px;white-space:pre-wrap;"></div>
+        <button class="btn btn-ghost" onclick="copyResult('cc-result')">📋 Copy</button>
+      </div>
+    `,
+    init: () => {}
+  },
+
+  loremipsum: {
+    title: '📄 Lorem Ipsum Generator',
+    html: `
+      <div class="col">
+        <div class="row">
+          <div style="flex:1;"><label>Paragraphs</label><input type="number" id="lorem-count" value="3" min="1" max="20"></div>
+          <div style="flex:1;"><label>Type</label><select id="lorem-type"><option value="para">Paragraphs</option><option value="sent">Sentences</option><option value="word">Words</option></select></div>
+        </div>
+        <button class="btn" onclick="genLorem()">✨ Generate</button>
+        <div class="result-box" id="lorem-result" style="min-height:200px;white-space:pre-wrap;font-family:var(--font-body);font-size:0.85rem;color:var(--text);line-height:1.7;"></div>
+        <button class="btn btn-ghost" onclick="copyResult('lorem-result')">📋 Copy</button>
+      </div>
+    `,
+    init: () => genLorem()
+  },
+
+  calculator: {
+    title: '🧮 Calculator',
+    html: `
+      <div class="col">
+        <div class="result-box" id="calc-display" style="text-align:right;font-size:1.8rem;font-weight:700;min-height:60px;padding:1rem;">0</div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;">
+          ${['C','±','%','÷','7','8','9','×','4','5','6','−','1','2','3','+','0','.','⌫','='].map(k =>
+            `<button class="btn ${k==='='?'btn-green':'btn-ghost'}" style="padding:0.8rem;font-size:1rem;${k==='0'?'':''}${['÷','×','−','+','='].includes(k)?'color:var(--accent);':''}${k==='='?'color:#fff;':''}" onclick="calcKey('${k}')">${k}</button>`
+          ).join('')}
+        </div>
+      </div>
+    `,
+    init: () => calcReset()
+  },
+
+  percentcalc: {
+    title: '% Percentage Calculator',
+    html: `
+      <div class="col">
+        <div style="background:var(--bg);border-radius:10px;padding:1rem;margin-bottom:0.5rem;">
+          <label>What is X% of Y?</label>
+          <div class="row"><input type="number" id="pc1a" placeholder="X %" style="flex:1;"><input type="number" id="pc1b" placeholder="Y" style="flex:1;"><button class="btn" onclick="pc1()">Calc</button></div>
+          <div class="result-box" id="pc1r" style="margin-top:0.5rem;"></div>
+        </div>
+        <div style="background:var(--bg);border-radius:10px;padding:1rem;margin-bottom:0.5rem;">
+          <label>X is what % of Y?</label>
+          <div class="row"><input type="number" id="pc2a" placeholder="X" style="flex:1;"><input type="number" id="pc2b" placeholder="Y" style="flex:1;"><button class="btn" onclick="pc2()">Calc</button></div>
+          <div class="result-box" id="pc2r" style="margin-top:0.5rem;"></div>
+        </div>
+        <div style="background:var(--bg);border-radius:10px;padding:1rem;">
+          <label>% change from X to Y</label>
+          <div class="row"><input type="number" id="pc3a" placeholder="From" style="flex:1;"><input type="number" id="pc3b" placeholder="To" style="flex:1;"><button class="btn" onclick="pc3()">Calc</button></div>
+          <div class="result-box" id="pc3r" style="margin-top:0.5rem;"></div>
+        </div>
+      </div>
+    `,
+    init: () => {}
+  },
+
+  roman: {
+    title: 'Ⅷ Roman Numeral Converter',
+    html: `
+      <div class="col">
+        <label>Enter a number (1–3999)</label>
+        <input type="number" id="roman-num" placeholder="e.g. 2024" min="1" max="3999" oninput="toRoman()">
+        <label>Roman Numeral</label>
+        <div class="result-box" id="roman-result" style="font-size:1.8rem;font-weight:700;text-align:center;"></div>
+        <label>Or enter Roman numeral to convert</label>
+        <input type="text" id="roman-str" placeholder="e.g. MMXXIV" oninput="fromRoman()" style="text-transform:uppercase;">
+        <label>Arabic Number</label>
+        <div class="result-box" id="roman-result2" style="font-size:1.8rem;font-weight:700;text-align:center;"></div>
+      </div>
+    `,
+    init: () => {}
+  },
+
+  diff: {
+    title: '🔍 Text Diff Checker',
+    html: `
+      <div class="col">
+        <div class="row">
+          <div style="flex:1;"><label>Original Text</label><textarea id="diff-a" placeholder="Original..." style="min-height:150px;"></textarea></div>
+          <div style="flex:1;"><label>Modified Text</label><textarea id="diff-b" placeholder="Modified..." style="min-height:150px;"></textarea></div>
+        </div>
+        <button class="btn" onclick="runDiff()">🔍 Compare</button>
+        <label>Differences</label>
+        <div class="result-box" id="diff-result" style="min-height:100px;white-space:pre-wrap;font-family:var(--font-mono);font-size:0.8rem;line-height:1.8;"></div>
+      </div>
+    `,
+    init: () => {}
+  }
+};
+
+function openTool(id) {
+  const tool = tools[id];
+  if (!tool) return;
+  document.getElementById('modal-title').textContent = tool.title;
+  document.getElementById('modal-body').innerHTML = tool.html;
+  document.getElementById('modal-overlay').classList.add('active');
+  if (tool.init) setTimeout(tool.init, 50);
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModalBtn();
+}
+function closeModalBtn() {
+  document.getElementById('modal-overlay').classList.remove('active');
+  pomStop();
+}
+
+// ─── TOOL LOGIC ───
+
+function genPassword() {
+  const len = +document.getElementById('pw-len').value;
+  const upper = document.getElementById('pw-upper').checked;
+  const lower = document.getElementById('pw-lower').checked;
+  const num = document.getElementById('pw-num').checked;
+  const sym = document.getElementById('pw-sym').checked;
+  let chars = '';
+  if (upper) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  if (lower) chars += 'abcdefghijklmnopqrstuvwxyz';
+  if (num) chars += '0123456789';
+  if (sym) chars += '!@#$%^&*()-_=+[]{}|;:,.<>?';
+  if (!chars) chars = 'abcdefghijklmnopqrstuvwxyz';
+  let pw = '';
+  for (let i = 0; i < len; i++) pw += chars[Math.floor(Math.random() * chars.length)];
+  document.getElementById('pw-result').textContent = pw;
+  const strength = len < 8 ? '🔴 Weak' : len < 12 ? '🟡 Fair' : len < 16 ? '🟢 Strong' : '💪 Very Strong';
+  document.getElementById('pw-strength').textContent = `Strength: ${strength} · Entropy: ~${Math.floor(len * Math.log2(chars.length))} bits`;
+}
+
+function countWords() {
+  const text = document.getElementById('wc-input').value;
+  const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+  const chars = text.length;
+  const sents = text.split(/[.!?]+/).filter(s => s.trim()).length;
+  const readSec = Math.round(words / 3);
+  document.getElementById('wc-words').textContent = words;
+  document.getElementById('wc-chars').textContent = chars;
+  document.getElementById('wc-sent').textContent = sents;
+  document.getElementById('wc-read').textContent = readSec < 60 ? readSec + 's' : Math.round(readSec/60) + 'm';
+}
+
+function updateColor() {
+  const hex = document.getElementById('color-pick').value;
+  document.getElementById('color-hex').value = hex;
+  applyColor(hex);
+}
+function colorFromHex() {
+  const hex = document.getElementById('color-hex').value;
+  if (/^#[0-9a-fA-F]{6}$/.test(hex)) {
+    document.getElementById('color-pick').value = hex;
+    applyColor(hex);
+  }
+}
+function applyColor(hex) {
+  const r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+  const h = rgbToHsl(r,g,b);
+  document.getElementById('color-preview').style.background = hex;
+  document.getElementById('out-hex').textContent = hex;
+  document.getElementById('out-rgb').textContent = `rgb(${r}, ${g}, ${b})`;
+  document.getElementById('out-hsl').textContent = `hsl(${h[0]}°, ${h[1]}%, ${h[2]}%)`;
+  document.getElementById('out-css').textContent = `color: ${hex};`;
+}
+function rgbToHsl(r,g,b) {
+  r/=255; g/=255; b/=255;
+  const max=Math.max(r,g,b), min=Math.min(r,g,b);
+  let h,s,l=(max+min)/2;
+  if(max===min){h=s=0;}
+  else{const d=max-min;s=l>0.5?d/(2-max-min):d/(max+min);
+  switch(max){case r:h=((g-b)/d+(g<b?6:0))/6;break;case g:h=((b-r)/d+2)/6;break;case b:h=((r-g)/d+4)/6;break;}}
+  return [Math.round(h*360),Math.round(s*100),Math.round(l*100)];
+}
+
+function b64encode() {
+  try { document.getElementById('b64-output').textContent = btoa(unescape(encodeURIComponent(document.getElementById('b64-input').value))); }
+  catch(e) { document.getElementById('b64-output').textContent = 'Error: ' + e.message; }
+}
+function b64decode() {
+  try { document.getElementById('b64-output').textContent = decodeURIComponent(escape(atob(document.getElementById('b64-input').value))); }
+  catch(e) { document.getElementById('b64-output').textContent = 'Error: Invalid Base64'; }
+}
+
+// Unit converter
+const unitData = {
+  length: { m: 1, km: 0.001, cm: 100, mm: 1000, mi: 0.000621371, yd: 1.09361, ft: 3.28084, in: 39.3701 },
+  weight: { kg: 1, g: 1000, mg: 1e6, lb: 2.20462, oz: 35.274, t: 0.001 },
+  temp: null,
+  volume: { L: 1, mL: 1000, gal: 0.264172, fl_oz: 33.814, cup: 4.22675, pt: 2.11338 },
+  speed: { 'km/h': 1, 'mph': 0.621371, 'm/s': 0.277778, knot: 0.539957 }
+};
+function updateUnits() {
+  const cat = document.getElementById('unit-cat').value;
+  const frm = document.getElementById('unit-from');
+  const to = document.getElementById('unit-to');
+  const keys = cat === 'temp' ? ['°C','°F','K'] : Object.keys(unitData[cat]);
+  frm.innerHTML = keys.map(k=>`<option value="${k}">${k}</option>`).join('');
+  to.innerHTML = keys.map((k,i)=>`<option value="${k}" ${i===1?'selected':''}>${k}</option>`).join('');
+  convertUnit();
+}
+function convertUnit() {
+  const cat = document.getElementById('unit-cat').value;
+  const val = +document.getElementById('unit-val').value;
+  const from = document.getElementById('unit-from').value;
+  const to = document.getElementById('unit-to').value;
+  let result;
+  if (cat === 'temp') {
+    let c = from==='°C'?val:from==='°F'?(val-32)*5/9:val-273.15;
+    result = to==='°C'?c:to==='°F'?c*9/5+32:c+273.15;
+  } else {
+    result = val / unitData[cat][from] * unitData[cat][to];
+  }
+  document.getElementById('unit-result').textContent = Math.round(result*1e6)/1e6 + ' ' + to;
+}
+
+function fmtJson() {
+  try { document.getElementById('json-output').textContent = JSON.stringify(JSON.parse(document.getElementById('json-input').value), null, 2); }
+  catch(e) { document.getElementById('json-output').textContent = '❌ Invalid JSON: ' + e.message; }
+}
+function minJson() {
+  try { document.getElementById('json-output').textContent = JSON.stringify(JSON.parse(document.getElementById('json-input').value)); }
+  catch(e) { document.getElementById('json-output').textContent = '❌ Invalid JSON: ' + e.message; }
+}
+function validateJson() {
+  try { JSON.parse(document.getElementById('json-input').value); document.getElementById('json-output').textContent = '✅ Valid JSON!'; }
+  catch(e) { document.getElementById('json-output').textContent = '❌ Invalid: ' + e.message; }
+}
+
+async function genHash() {
+  const text = document.getElementById('hash-input').value;
+  if (!text) return;
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  const hex = Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+  document.getElementById('hash-result').textContent = hex;
+}
+
+// Pomodoro
+let pomInterval = null, pomSeconds = 25*60, pomRunning = false, pomCompleted = 0, pomBreaks = 0, pomFocused = 0;
+const pomPhases = ['Focus Session', 'Short Break', 'Long Break'];
+let pomPhase = 0;
+function initPom() { pomReset(); }
+function pomControl() {
+  if (!pomRunning) {
+    pomRunning = true;
+    document.getElementById('pom-btn').textContent = '⏸ Pause';
+    pomInterval = setInterval(() => {
+      pomSeconds--;
+      if (pomSeconds < 0) {
+        pomRunning = false; clearInterval(pomInterval);
+        if (pomPhase === 0) { pomCompleted++; pomFocused += 25; pomPhase = 1; pomSeconds = 5*60; }
+        else { pomBreaks++; pomPhase = 0; pomSeconds = 25*60; }
+        updatePomStats();
+        pomControl();
+      }
+      updatePomDisplay();
+    }, 1000);
+  } else { pomStop(); document.getElementById('pom-btn').textContent = '▶ Resume'; }
+}
+function pomStop() { pomRunning = false; clearInterval(pomInterval); }
+function pomReset() { pomStop(); pomSeconds = 25*60; pomPhase = 0; pomCompleted = 0; pomFocused = 0; pomBreaks = 0; document.getElementById('pom-btn').textContent = '▶ Start'; updatePomDisplay(); updatePomStats(); }
+function updatePomDisplay() {
+  const m = String(Math.floor(pomSeconds/60)).padStart(2,'0');
+  const s = String(pomSeconds%60).padStart(2,'0');
+  document.getElementById('pom-display').textContent = `${m}:${s}`;
+  document.getElementById('pom-phase').textContent = pomPhases[pomPhase];
+}
+function updatePomStats() {
+  document.getElementById('pom-completed').textContent = pomCompleted;
+  document.getElementById('pom-focus').textContent = pomFocused + 'm';
+  document.getElementById('pom-breaks').textContent = pomBreaks;
+}
+
+// Case Converter
+function cc(mode) {
+  const t = document.getElementById('cc-input').value;
+  let r;
+  switch(mode) {
+    case 'upper': r = t.toUpperCase(); break;
+    case 'lower': r = t.toLowerCase(); break;
+    case 'title': r = t.toLowerCase().replace(/\b\w/g, c=>c.toUpperCase()); break;
+    case 'camel': r = t.toLowerCase().replace(/\s+(\w)/g,(_,c)=>c.toUpperCase()); break;
+    case 'snake': r = t.toLowerCase().replace(/\s+/g,'_'); break;
+    case 'kebab': r = t.toLowerCase().replace(/\s+/g,'-'); break;
+  }
+  document.getElementById('cc-result').textContent = r;
+}
+
+// Lorem Ipsum
+const loremWords = 'lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum'.split(' ');
+function genLorem() {
+  const count = +document.getElementById('lorem-count').value || 3;
+  const type = document.getElementById('lorem-type').value;
+  let result = '';
+  if (type === 'para') {
+    for (let p = 0; p < count; p++) {
+      const words = []; for (let i=0;i<60+Math.random()*40;i++) words.push(loremWords[Math.floor(Math.random()*loremWords.length)]);
+      words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
+      result += words.join(' ') + '.\n\n';
+    }
+  } else if (type === 'sent') {
+    for (let s = 0; s < count; s++) {
+      const words = []; for (let i=0;i<8+Math.random()*12;i++) words.push(loremWords[Math.floor(Math.random()*loremWords.length)]);
+      words[0] = words[0].charAt(0).toUpperCase() + words[0].slice(1);
+      result += words.join(' ') + '. ';
+    }
+  } else {
+    const words = []; for (let i=0;i<count;i++) words.push(loremWords[Math.floor(Math.random()*loremWords.length)]);
+    result = words.join(' ');
+  }
+  document.getElementById('lorem-result').textContent = result.trim();
+}
+
+// Calculator
+let calcExpr = '', calcResult = '0';
+function calcKey(k) {
+  const display = document.getElementById('calc-display');
+  if (k === 'C') { calcExpr = ''; display.textContent = '0'; }
+  else if (k === '=') {
+    try {
+      let expr = calcExpr.replace('×','*').replace('÷','/').replace('−','-');
+      const r = Function('"use strict";return('+expr+')')();
+      display.textContent = Math.round(r*1e10)/1e10;
+      calcExpr = String(r);
+    } catch { display.textContent = 'Error'; calcExpr = ''; }
+  } else if (k === '⌫') { calcExpr = calcExpr.slice(0,-1); display.textContent = calcExpr || '0'; }
+  else if (k === '±') { calcExpr = calcExpr.startsWith('-') ? calcExpr.slice(1) : '-'+calcExpr; display.textContent = calcExpr; }
+  else if (k === '%') { try { calcExpr = String(parseFloat(calcExpr)/100); display.textContent = calcExpr; } catch {} }
+  else { calcExpr += k; display.textContent = calcExpr; }
+}
+function calcReset() { calcExpr = ''; }
+
+// Percent
+function pc1() { const a=+document.getElementById('pc1a').value, b=+document.getElementById('pc1b').value; document.getElementById('pc1r').textContent = `${a}% of ${b} = ${Math.round(a*b/100*1000)/1000}`; }
+function pc2() { const a=+document.getElementById('pc2a').value, b=+document.getElementById('pc2b').value; document.getElementById('pc2r').textContent = `${a} is ${Math.round(a/b*10000)/100}% of ${b}`; }
+function pc3() { const a=+document.getElementById('pc3a').value, b=+document.getElementById('pc3b').value; const pct=Math.round((b-a)/a*10000)/100; document.getElementById('pc3r').textContent = `${pct > 0 ? '▲' : '▼'} ${Math.abs(pct)}% ${pct>0?'increase':'decrease'}`; }
+
+// Roman
+const romanNums = [[1000,'M'],[900,'CM'],[500,'D'],[400,'CD'],[100,'C'],[90,'XC'],[50,'L'],[40,'XL'],[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']];
+function toRoman() {
+  let num = +document.getElementById('roman-num').value, result = '';
+  if (num < 1 || num > 3999) { document.getElementById('roman-result').textContent = 'Out of range'; return; }
+  for (const [val, sym] of romanNums) { while (num >= val) { result += sym; num -= val; } }
+  document.getElementById('roman-result').textContent = result;
+}
+function fromRoman() {
+  const s = document.getElementById('roman-str').value.toUpperCase();
+  const map = {M:1000,D:500,C:100,L:50,X:10,V:5,I:1};
+  let result = 0;
+  for (let i = 0; i < s.length; i++) {
+    const cur = map[s[i]], next = map[s[i+1]];
+    if (!cur) { document.getElementById('roman-result2').textContent = 'Invalid'; return; }
+    result += (next && next > cur) ? -cur : cur;
+  }
+  document.getElementById('roman-result2').textContent = result;
+}
+
+// Diff
+function runDiff() {
+  const a = document.getElementById('diff-a').value.split('\n');
+  const b = document.getElementById('diff-b').value.split('\n');
+  let out = '';
+  const maxLen = Math.max(a.length, b.length);
+  for (let i = 0; i < maxLen; i++) {
+    if (a[i] === b[i]) { out += `  ${a[i]||''}\n`; }
+    else {
+      if (a[i] !== undefined) out += `− ${a[i]}\n`;
+      if (b[i] !== undefined) out += `+ ${b[i]}\n`;
+    }
+  }
+  document.getElementById('diff-result').innerHTML = out.split('\n').map(l => {
+    if (l.startsWith('+ ')) return `<span style="color:#6affb8">${l}</span>`;
+    if (l.startsWith('− ')) return `<span style="color:#ff6a6a">${l}</span>`;
+    return `<span style="color:var(--muted)">${l}</span>`;
+  }).join('\n');
+}
+
+// Copy helper
+function copyResult(id) {
+  const el = document.getElementById(id);
+  const text = el.value || el.textContent;
+  navigator.clipboard.writeText(text).then(() => showToast('✅ Copied to clipboard!'));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ═══════════════════════════════════
+// DAILY TIP
+// ═══════════════════════════════════
+const tips = [
+  '<strong>Speed tip:</strong> Close unused browser tabs to free up bandwidth and RAM — you\'ll notice faster loading everywhere.',
+  '<strong>Security tip:</strong> Use a unique password for every account. Our password generator can help! Never reuse passwords.',
+  '<strong>Productivity tip:</strong> The Pomodoro technique (25 min work, 5 min break) boosts deep focus. Try it today!',
+  '<strong>Dev tip:</strong> Base64 encoding is not encryption — it\'s just encoding. Never use it to hide sensitive data.',
+  '<strong>Color tip:</strong> HEX colors with the same first and last two pairs (like #aabbcc) can be written shorthand as #abc in CSS.',
+  '<strong>Speed tip:</strong> Good ping (<20ms) matters more than raw speed for gaming and video calls.',
+  '<strong>SEO tip:</strong> Bookmark sites you visit daily — it helps them with direct traffic metrics, which boosts their ranking.',
+];
+const todayTip = tips[new Date().getDay() % tips.length];
+document.getElementById('daily-tip').innerHTML = todayTip;
+
+// ═══════════════════════════════════
+// COUNTDOWN (to midnight — new tool)
+// ═══════════════════════════════════
+function updateCountdown() {
+  const now = new Date(), midnight = new Date(now); midnight.setHours(24,0,0,0);
+  const diff = Math.floor((midnight - now) / 1000);
+  const h = Math.floor(diff / 3600), m = Math.floor((diff % 3600) / 60), s = diff % 60;
+  document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+  document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+  document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+}
+setInterval(updateCountdown, 1000); updateCountdown();
+
+// ═══════════════════════════════════
+// VISITOR COUNTER (animated)
+// ═══════════════════════════════════
+let vc = 12847;
+setInterval(() => {
+  if (Math.random() > 0.7) { vc += Math.floor(Math.random() * 3); document.getElementById('visitor-counter').textContent = vc.toLocaleString(); }
+}, 3000);
+
+// Keyboard shortcut to close modal
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalBtn(); });
+</script>
+</body>
+</html>

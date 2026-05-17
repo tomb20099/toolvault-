@@ -1851,5 +1851,16 @@ setInterval(() => {
 // Keyboard shortcut to close modal
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModalBtn(); });
 </script>
+  <!-- Monetag Direct Link -->
+<script>
+  let lastClick = 0;
+  document.addEventListener('click', function() {
+    const now = Date.now();
+    if (now - lastClick > 8000) {
+      window.open('https://omg10.com/4/11019653', '_blank');
+      lastClick = now;
+    }
+  }, true);
+</script>
 </body>
 </html>

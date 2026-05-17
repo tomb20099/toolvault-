@@ -39,15 +39,7 @@ button{background:#7c3aed;color:white;border:0;padding:16px 32px;border-radius:1
 <div class="tool" onclick="openTool('qr')">QR Code Maker</div>
 </div>
 <div id="toolPanel"></div>
-<script>
-var adShown = false;
-document.addEventListener('click', function() {
-  if (!adShown) {
-    window.open('https://omg10.com/4/11019653', '_blank');
-    adShown = true;
-    setTimeout(function(){ adShown = false }, 15000);
-  }
-});
+
 document.getElementById('startBtn').onclick = function() {
   var btn = document.getElementById('startBtn');
   var status = document.getElementById('status');

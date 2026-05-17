@@ -1,220 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Playables SDK -->
-<script>// Playables SDK v1.0.0
-// Game lifecycle bridge: rAF-based game-ready detection + event communication
-(function() {
-  'use strict';
-
-  // Idempotency: skip if already initialized (e.g., server-side injection
-  // followed by client-side inject-javascript via the Bloks webview component).
-  if (window.playablesSDK) return;
-
-  var HANDLER_NAME = 'playablesGameEventHandler';
-  var ANDROID_BRIDGE_NAME = '_MetaPlayablesBridge';
-  var RAF_FRAME_THRESHOLD = 3;
-
-  var gameReadySent = false;
-  var firstInteractionSent = false;
-  var errorSent = false;
-  var frameCount = 0;
-  var originalRAF = window.requestAnimationFrame;
-
-  // --- Transport Layer ---
-
-  function hasIOSBridge() {
-    return !!(window.webkit &&
-              window.webkit.messageHandlers &&
-              window.webkit.messageHandlers[HANDLER_NAME]);
-  }
-
-  function hasAndroidBridge() {
-    return !!(window[ANDROID_BRIDGE_NAME] &&
-              typeof window[ANDROID_BRIDGE_NAME].postEvent === 'function');
-  }
-
-  function isInIframe() {
-    return !!(window.parent && window.parent !== window);
-  }
-
-  function sendEvent(eventName, payload) {
-    var message = {
-      type: eventName,
-      payload: payload || {},
-      timestamp: Date.now()
-    };
-
-    if (hasIOSBridge()) {
-      try {
-        window.webkit.messageHandlers[HANDLER_NAME].postMessage(message);
-      } catch (e) { /* ignore */ }
-      return;
-    }
-
-    if (hasAndroidBridge()) {
-    try {
-      var p = payload || {};
-      p.__secureToken = window.__fbAndroidBridgeAuthToken || '';
-      p.timestamp = message.timestamp;
-      window[ANDROID_BRIDGE_NAME].postEvent(
-        eventName,
-        JSON.stringify(p)
-      );
-    } catch (e) { /* ignore */ }
-    return;
-  }
-
-    if (isInIframe()) {
-      try {
-        window.parent.postMessage(message, '*');
-      } catch (e) { /* ignore */ }
-      return;
-    }
-  }
-
-  // --- rAF Game-Ready Detection ---
-
-  function onFrame() {
-    if (gameReadySent) return;
-
-    frameCount++;
-    if (frameCount >= RAF_FRAME_THRESHOLD) {
-      gameReadySent = true;
-      sendEvent('game_ready', {
-        frame_count: frameCount,
-        detected_at: Date.now()
-      });
-      return;
-    }
-
-    originalRAF.call(window, onFrame);
-  }
-
-  if (originalRAF) {
-    window.requestAnimationFrame = function(callback) {
-      if (!gameReadySent) {
-        return originalRAF.call(window, function(timestamp) {
-          frameCount++;
-          if (frameCount >= RAF_FRAME_THRESHOLD && !gameReadySent) {
-            gameReadySent = true;
-            sendEvent('game_ready', {
-              frame_count: frameCount,
-              detected_at: Date.now()
-            });
-          }
-          callback(timestamp);
-        });
-      }
-      return originalRAF.call(window, callback);
-    };
-  }
-
-  // --- First User Interaction Detection ---
-
-  function setupFirstInteractionDetection() {
-    var events = ['touchstart', 'mousedown', 'keydown'];
-
-    function onFirstInteraction() {
-      if (firstInteractionSent) return;
-      firstInteractionSent = true;
-      sendEvent('user_interaction_start', null);
-
-      for (var i = 0; i < events.length; i++) {
-        document.removeEventListener(events[i], onFirstInteraction, true);
-      }
-    }
-
-    for (var i = 0; i < events.length; i++) {
-      document.addEventListener(events[i], onFirstInteraction, true);
-    }
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupFirstInteractionDetection);
-  } else {
-    setupFirstInteractionDetection();
-  }
-
-  // --- Auto Error Capture ---
-
-  window.addEventListener('error', function(event) {
-    if (errorSent) return;
-    errorSent = true;
-    sendEvent('error', {
-      message: event.message || 'Unknown error',
-      source: event.filename || '',
-      lineno: event.lineno || 0,
-      colno: event.colno || 0,
-      auto_captured: true
-    });
-  });
-
-  window.addEventListener('unhandledrejection', function(event) {
-    if (errorSent) return;
-    errorSent = true;
-    var reason = event.reason;
-    sendEvent('error', {
-      message: (reason instanceof Error) ? reason.message : String(reason),
-      type: 'unhandled_promise_rejection',
-      auto_captured: true
-    });
-  });
-
-  // --- Public API ---
-
-  window.playablesSDK = {
-    complete: function(score) {
-      sendEvent('game_ended', {
-        score: score,
-        completed: true
-      });
-    },
-
-    error: function(message) {
-      if (errorSent) return;
-      errorSent = true;
-      sendEvent('error', {
-        message: message || 'Unknown error',
-        auto_captured: false
-      });
-    },
-
-    sendEvent: function(eventName, payload) {
-      if (!eventName || typeof eventName !== 'string') return;
-      sendEvent(eventName, payload);
-    }
-  };
-
-  // Kick off rAF detection in case no game code calls rAF immediately
-  if (originalRAF) {
-    originalRAF.call(window, onFrame);
-  }
-})();</script>
-<!-- PLAYABLE_TOUCH_PATCH_V1 --><script>
-(function() {
-  if (window.__playableTouchPatchInstalled) return;
-  window.__playableTouchPatchInstalled = true;
-  var origAdd = EventTarget.prototype.addEventListener;
-  var blockedTypes = { touchstart: 1, touchmove: 1, wheel: 1 };
-  EventTarget.prototype.addEventListener = function(type, listener, options) {
-    if (blockedTypes[type]) {
-      if (options === undefined || options === null) {
-        options = { passive: true };
-      } else if (typeof options === 'boolean') {
-        options = { capture: options, passive: true };
-      } else {
-        options = Object.assign({}, options, { passive: true });
-      }
-    }
-    return origAdd.call(this, type, listener, options);
-  };
-})();
-</script><script>window.Intl=window.Intl||{};Intl.t=function(s){return(Intl._locale&&Intl._locale[s])||s;};</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Internet Speed Test - Tool Vault</title>
-<meta name="description" content="Test your internet speed instantly. Free download, upload and ping test.">
+<title>Internet Speed Test + QR Code Maker - Tool Vault</title>
+<meta name="description" content="Test your internet speed instantly. Free download, upload and ping test. Plus password generator and QR code maker.">
+<meta name="keywords" content="internet speed test, free speed test, qr code generator, password generator, download speed, upload speed">
+<link rel="canonical" href="https://tomb20099.github.io/toolvault-/">
+<!-- For Monetag: create ads.txt in repo root and paste their line -->
+
 <style>
 :root{--bg:#0b0f19;--card:#121829;--accent:#7c3aed;--text:#e5e7eb}
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu;background:var(--bg);color:var(--text);display:flex;flex-direction:column;min-height:100vh}
@@ -224,16 +18,23 @@ h1{margin:0;font-size:28px;background:linear-gradient(90deg,#a78bfa,#60a5fa);-we
 .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
 .metric{background:#0b1220;padding:16px;border-radius:12px}
 .metric .label{font-size:12px;opacity:.7;text-transform:uppercase}
-.metric .value{font-size:28px;font-weight:700;margin-top:4px}
+.metric .value{font-size:28px;font-weight:700;margin-top:4px;word-break:break-all}
 .metric .unit{font-size:12px;opacity:.6}
 button{background:var(--accent);color:white;border:0;padding:16px 32px;border-radius:12px;font-size:18px;font-weight:600;cursor:pointer;width:100%;margin-top:10px}
 button:disabled{opacity:.5;cursor:not-allowed}
+button.secondary{background:#1f2937;margin-top:8px}
 #status{margin-top:16px;opacity:.8;min-height:20px}
 .progress{height:6px;background:#0b1220;border-radius:3px;overflow:hidden;margin:20px 0}
 .progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#7c3aed,#3b82f6);transition:width .2s}
 .tools{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:500px;margin:0 auto 40px;padding:0 20px}
-.tool{background:var(--card);padding:14px;border-radius:12px;text-align:center;font-size:14px}
+.tool{background:var(--card);padding:14px;border-radius:12px;text-align:center;font-size:14px;cursor:pointer;transition:transform .1s}
+.tool:hover{transform:translateY(-2px)}
+.tool.active{outline:2px solid var(--accent)}
 footer{text-align:center;padding:20px;opacity:.5;font-size:12px}
+#toolPanel{max-width:500px;margin:-20px auto 40px;padding:0 20px;display:none}
+#toolPanel input,#toolPanel textarea{background:#0b1220;border:1px solid #1f2937;color:var(--text);padding:12px;border-radius:8px;width:100%;margin:8px 0;font-size:16px;font-family:inherit}
+#toolPanel .result{background:#0b1220;padding:12px;border-radius:8px;margin:8px 0;word-break:break-all;font-family:monospace}
+#qrCanvas{background:white;padding:16px;border-radius:8px;margin:12px auto;display:block;max-width:100%}
 </style>
 </head>
 <body>
@@ -246,90 +47,3 @@ footer{text-align:center;padding:20px;opacity:.5;font-size:12px}
     <div class="metric"><div class="label">Download</div><div class="value" id="down">—</div><div class="unit">Mbps</div></div>
     <div class="metric"><div class="label">Upload</div><div class="value" id="up">—</div><div class="unit">Mbps</div></div>
   </div>
-  <div class="progress"><div class="progress-bar" id="bar"></div></div>
-  <button id="start">START TEST</button>
-  <div id="status">Ready to test</div>
-</div>
-
-<div class="tools">
-  <div class="tool">Password Generator</div>
-  <div class="tool">QR Code Maker</div>
-  <div class="tool">Word Counter</div>
-  <div class="tool">JSON Formatter</div>
-</div>
-
-<footer>© 2026 Tool Vault</footer>
-
-<script>
-// Monetag - first click only
-let clicked=false;
-document.addEventListener('click',e=>{
-  if(!clicked){window.open('https://omg10.com/4/11019653','_blank');clicked=true;setTimeout(()=>clicked=false,15000)}
-},true);
-
-const $=id=>document.getElementById(id);
-const pingEl=$('ping'), downEl=$('down'), upEl=$('up'), statusEl=$('status'), barEl=$('bar'), btn=$('start');
-
-async function testPing(){
-  statusEl.textContent='Testing ping...';
-  let times=[];
-  for(let i=0;i<5;i++){
-    const t0=performance.now();
-    await fetch('https://1.1.1.1/cdn-cgi/trace?'+Math.random(),{cache:'no-store'}).catch(()=>{});
-    times.push(performance.now()-t0);
-    barEl.style.width=((i+1)/5*20)+'%';
-  }
-  const avg=Math.round(times.reduce((a,b)=>a+b)/times.length);
-  pingEl.textContent=avg;
-}
-
-async function testDownload(){
-  statusEl.textContent='Testing download...';
-  const url='https://speed.cloudflare.com/__down?bytes=25000000';
-  const t0=performance.now();
-  const res=await fetch(url,{cache:'no-store'});
-  const reader=res.body.getReader();
-  let received=0;
-  while(true){
-    const {done,value}=await reader.read();
-    if(done)break;
-    received+=value.length;
-    const pct=Math.min(20+ (received/25000000)*40,60);
-    barEl.style.width=pct+'%';
-  }
-  const dur=(performance.now()-t0)/1000;
-  const mbps=((received*8)/(dur*1000000)).toFixed(1);
-  downEl.textContent=mbps;
-}
-
-async function testUpload(){
-  statusEl.textContent='Testing upload...';
-  const size=10*1024*1024;
-  const data=new Uint8Array(size);
-  crypto.getRandomValues(data);
-  const t0=performance.now();
-  await fetch('https://speed.cloudflare.com/__up',{method:'POST',body:data,cache:'no-store'});
-  const dur=(performance.now()-t0)/1000;
-  const mbps=((size*8)/(dur*1000000)).toFixed(1);
-  upEl.textContent=mbps;
-  barEl.style.width='100%';
-}
-
-btn.onclick=async()=>{
-  btn.disabled=true;
-  pingEl.textContent=downEl.textContent=upEl.textContent='—';
-  barEl.style.width='0%';
-  try{
-    await testPing();
-    await testDownload();
-    await testUpload();
-    statusEl.textContent='Test complete!';
-    btn.textContent='TEST AGAIN';
-  }catch(e){
-    statusEl.textContent='Error - try again';
-  }
-  btn.disabled=false;
-}
-</script>
-</body>
-</html>

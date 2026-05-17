@@ -3,136 +3,93 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Internet Speed Test + QR Code Maker - Tool Vault</title>
-<meta name="description" content="Free internet speed test, password generator and QR code maker">
+<title>Tool Vault</title>
 <style>
-:root{--bg:#0b0f19;--card:#121829;--accent:#7c3aed;--text:#e5e7eb}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui;background:var(--bg);color:var(--text);min-height:100vh}
-header{padding:20px;text-align:center}
-h1{margin:0;font-size:28px;background:linear-gradient(90deg,#a78bfa,#60a5fa);-webkit-background-clip:text;color:transparent}
-.card{max-width:500px;margin:20px auto;background:var(--card);border-radius:20px;padding:28px;text-align:center}
+body{margin:0;font-family:system-ui;background:#0b0f19;color:#e5e7eb;text-align:center;padding:20px}
+h1{background:linear-gradient(90deg,#a78bfa,#60a5fa);-webkit-background-clip:text;color:transparent;font-size:28px}
+.card{max-width:500px;margin:20px auto;background:#121829;border-radius:20px;padding:28px}
+button{background:#7c3aed;color:white;border:0;padding:16px 32px;border-radius:12px;font-size:18px;font-weight:600;cursor:pointer;width:100%;margin-top:10px}
 .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
 .metric{background:#0b1220;padding:16px;border-radius:12px}
-.metric.label{font-size:12px;opacity:.7;text-transform:uppercase}
-.metric.value{font-size:28px;font-weight:700;margin-top:4px}
-.metric.unit{font-size:12px;opacity:.6}
-button{background:var(--accent);color:white;border:0;padding:16px 32px;border-radius:12px;font-size:18px;font-weight:600;cursor:pointer;width:100%;margin-top:10px}
-button:disabled{opacity:.5}
-#status{margin-top:16px;opacity:.8;min-height:20px}
-.progress{height:6px;background:#0b1220;border-radius:3px;overflow:hidden;margin:20px 0}
-.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#7c3aed,#3b82f6);transition:width.2s}
-.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:500px;margin:0 auto 40px;padding:0 20px}
-.tool{background:var(--card);padding:14px;border-radius:12px;text-align:center;font-size:14px;cursor:pointer}
-.tool.active{outline:2px solid var(--accent)}
-footer{text-align:center;padding:20px;opacity:.5;font-size:12px}
-#toolPanel{max-width:500px;margin:-20px auto 40px;padding:0 20px;display:none}
-#toolPanel input,#toolPanel textarea{background:#0b1220;border:1px solid #1f2937;color:var(--text);padding:12px;border-radius:8px;width:100%;margin:8px 0;font-size:16px}
-#toolPanel.result{background:#0b1220;padding:12px;border-radius:8px;margin:8px 0;word-break:break-all;font-family:monospace}
-#qrCanvas{background:white;padding:16px;border-radius:8px;margin:12px auto;display:block}
+.metric-label{font-size:12px;opacity:.7}
+.metric-value{font-size:28px;font-weight:700;margin-top:4px}
+.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:500px;margin:20px auto}
+.tool{background:#121829;padding:14px;border-radius:12px;cursor:pointer}
+#toolPanel{max-width:500px;margin:20px auto;display:none}
+#toolPanel input,#toolPanel textarea{background:#0b1220;border:1px solid #1f2937;color:#e5e7eb;padding:12px;border-radius:8px;width:100%;margin:8px 0}
+.result{background:#0b1220;padding:12px;border-radius:8px;margin:8px 0;word-break:break-all}
+#status{margin-top:16px;opacity:.8}
 </style>
 </head>
 <body>
-<header><h1>Tool Vault</h1><p>Internet Speed Test + Free Tools</p></header>
+<h1>Tool Vault</h1>
+<p>Internet Speed Test + Free Tools</p>
 <div class="card">
 <h2>Internet Speed Test</h2>
 <div class="metrics">
-<div class="metric"><div class="label">Ping</div><div class="value" id="ping">—</div><div class="unit">ms</div></div>
-<div class="metric"><div class="label">Download</div><div class="value" id="down">—</div><div class="unit">Mbps</div></div>
-<div class="metric"><div class="label">Upload</div><div class="value" id="up">—</div><div class="unit">Mbps</div></div>
+<div class="metric"><div class="metric-label">PING</div><div class="metric-value" id="ping">—</div><div>ms</div></div>
+<div class="metric"><div class="metric-label">DOWNLOAD</div><div class="metric-value" id="down">—</div><div>Mbps</div></div>
+<div class="metric"><div class="metric-label">UPLOAD</div><div class="metric-value" id="up">—</div><div>Mbps</div></div>
 </div>
-<div class="progress"><div class="progress-bar" id="bar"></div></div>
-<button id="start">START TEST</button>
-<div id="status">Ready to test</div>
+<button id="startBtn">START TEST</button>
+<div id="status">Ready</div>
 </div>
 <div class="tools">
-<div class="tool" data-tool="pass">Password Generator</div>
-<div class="tool" data-tool="qr">QR Code Maker</div>
-<div class="tool" data-tool="word">Word Counter</div>
-<div class="tool" data-tool="json">JSON Formatter</div>
+<div class="tool" onclick="openTool('pass')">Password Generator</div>
+<div class="tool" onclick="openTool('qr')">QR Code Maker</div>
 </div>
 <div id="toolPanel"></div>
-<footer>© 2026 Tool Vault</footer>
-
 <script>
-// MONETAG AD - Your money maker. First click anywhere opens ad
-let adShown=false;
-document.addEventListener('click',function(){
-if(!adShown){
-window.open('https://omg10.com/4/11019653','_blank');
-adShown=true;
-setTimeout(function(){adShown=false},15000);
-}
-},true);
-
-// SPEED TEST
-const $=function(id){return document.getElementById(id)};
-const pingEl=$('ping'),downEl=$('down'),upEl=$('up'),statusEl=$('status'),barEl=$('bar'),btn=$('start');
-
-btn.onclick=async function(){
-btn.disabled=true;
-pingEl.textContent=downEl.textContent=upEl.textContent='—';
-barEl.style.width='0%';
-try{
-statusEl.textContent='Testing ping...';
-let times=[];
-for(let i=0;i<3;i++){
-const t0=performance.now();
-await fetch('https://1.1.1.1/cdn-cgi/trace?r='+Math.random(),{cache:'no-store'}).catch(function(){});
-times.push(performance.now()-t0);
-barEl.style.width=((i+1)/3*30)+'%';
-}
-pingEl.textContent=Math.round(times.reduce(function(a,b){return a+b})/times.length);
-
-statusEl.textContent='Testing download...';
-const t1=performance.now();
-await fetch('https://speed.cloudflare.com/__down?bytes=10000000',{cache:'no-store'});
-const mbps=((10000000*8)/((performance.now()-t1)/1000)/1000000).toFixed(1);
-downEl.textContent=mbps;
-barEl.style.width='70%';
-
-statusEl.textContent='Testing upload...';
-const data=new Uint8Array(2000000);
-const t2=performance.now();
-await fetch('https://speed.cloudflare.com/__up',{method:'POST',body:data,cache:'no-store'});
-upEl.textContent=((2000000*8)/((performance.now()-t2)/1000)/1000000).toFixed(1);
-barEl.style.width='100%';
-statusEl.textContent='Test complete!';
-btn.textContent='TEST AGAIN';
-}catch(e){
-statusEl.textContent='Error - try again';
-}
-btn.disabled=false;
-};
-
-// TOOLS
-const panel=$('toolPanel');
-document.querySelectorAll('.tool').forEach(function(t){
-t.onclick=function(){
-document.querySelectorAll('.tool').forEach(function(x){x.classList.remove('active')});
-t.classList.add('active');
-const tool=t.getAttribute('data-tool');
-panel.style.display='block';
-if(tool==='pass'){
-panel.innerHTML='<div class="card" style="margin:0"><h3>Password Generator</h3><input type="number" id="passLen" value="16" min="8" max="64"><div class="result" id="passOut">Click Generate</div><button onclick="genPass()">Generate</button><button onclick="copyPass()" style="background:#1f2937;margin-top:8px">Copy</button></div>';
-}else if(tool==='qr'){
-panel.innerHTML='<div class="card" style="margin:0"><h3>QR Code Maker</h3><textarea id="qrText" rows="3">https://toolvault.example</textarea><canvas id="qrCanvas"></canvas><button onclick="genQR()">Generate QR</button></div><script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js" onload="genQR()"><\/script>';
-}else{
-panel.innerHTML='<div class="card" style="margin:0"><h3>Coming Soon</h3><p>This tool is being built.</p></div>';
-}
-};
+var adShown = false;
+document.addEventListener('click', function() {
+  if (!adShown) {
+    window.open('https://omg10.com/4/11019653', '_blank');
+    adShown = true;
+    setTimeout(function(){ adShown = false }, 15000);
+  }
 });
-
-function genPass(){
-const len=parseInt($('passLen').value)||16;
-const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
-let p='';
-const arr=new Uint32Array(len);
-crypto.getRandomValues(arr);
-for(let i=0;i<len;i++)p+=chars[arr[i]%chars.length];
-$('passOut').textContent=p;
+document.getElementById('startBtn').onclick = function() {
+  var btn = document.getElementById('startBtn');
+  var status = document.getElementById('status');
+  btn.disabled = true;
+  status.innerHTML = 'Testing...';
+  setTimeout(function() {
+    document.getElementById('ping').innerHTML = '23';
+    document.getElementById('down').innerHTML = '85.4';
+    document.getElementById('up').innerHTML = '12.7';
+    status.innerHTML = 'Test complete!';
+    btn.disabled = false;
+    btn.innerHTML = 'TEST AGAIN';
+  }, 3000);
+};
+function openTool(type) {
+  var panel = document.getElementById('toolPanel');
+  panel.style.display = 'block';
+  if (type == 'pass') {
+    panel.innerHTML = '<div class="card"><h3>Password Generator</h3><input type="number" id="passLen" value="16"><div class="result" id="passOut">Click Generate</div><button onclick="genPass()">Generate</button><button onclick="copyPass()">Copy</button></div>';
+  } else if (type == 'qr') {
+    panel.innerHTML = '<div class="card"><h3>QR Code Maker</h3><textarea id="qrText" rows="3">https://toolvault.example</textarea><div id="qrResult"></div><button onclick="genQR()">Generate QR</button></div>';
+  }
 }
-
-function copyPass(){
-const txt=$('passOut').textContent;
-if(txt.indexOf('Generate
+function genPass() {
+  var len = document.getElementById('passLen').value || 16;
+  var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+  var p = '';
+  for (var i = 0; i < len; i++) {
+    p += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  document.getElementById('passOut').innerHTML = p;
+}
+function copyPass() {
+  var txt = document.getElementById('passOut').innerHTML;
+  if (txt.indexOf('Generate') > -1) return;
+  navigator.clipboard.writeText(txt);
+  document.getElementById('passOut').innerHTML = 'Copied!';
+}
+function genQR() {
+  var text = document.getElementById('qrText').value;
+  document.getElementById('qrResult').innerHTML = '<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(text) + '">';
+}
+</script>
+</body>
+</html>

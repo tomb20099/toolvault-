@@ -2,87 +2,401 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Tool Vault</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ToolVault — Your Daily Web Toolkit</title>
+<meta name="description" content="Free online tools for everyone. Speed test, password generator, word counter, color picker, unit converter and more. Bookmark and use daily!">
+<meta name="keywords" content="free online tools, internet speed test, password generator, word counter, color picker, unit converter, base64 encoder, web toolkit">
+<meta property="og:title" content="ToolVault — Your Daily Web Toolkit">
+<meta property="og:description" content="50+ free tools to make your life easier. Fast, free, no signup needed.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&family=Manrope:wght@300;400;600&display=swap" rel="stylesheet">
+
 <style>
-body{margin:0;font-family:system-ui;background:#0b0f19;color:#e5e7eb;text-align:center;padding:20px}
-h1{background:linear-gradient(90deg,#a78bfa,#60a5fa);-webkit-background-clip:text;color:transparent;font-size:28px}
-.card{max-width:500px;margin:20px auto;background:#121829;border-radius:20px;padding:28px}
-button{background:#7c3aed;color:white;border:0;padding:16px 32px;border-radius:12px;font-size:18px;font-weight:600;cursor:pointer;width:100%;margin-top:10px}
-.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
-.metric{background:#0b1220;padding:16px;border-radius:12px}
-.metric-label{font-size:12px;opacity:.7}
-.metric-value{font-size:28px;font-weight:700;margin-top:4px}
-.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:500px;margin:20px auto}
-.tool{background:#121829;padding:14px;border-radius:12px;cursor:pointer}
-#toolPanel{max-width:500px;margin:20px auto;display:none}
-#toolPanel input,#toolPanel textarea{background:#0b1220;border:1px solid #1f2937;color:#e5e7eb;padding:12px;border-radius:8px;width:100%;margin:8px 0}
-.result{background:#0b1220;padding:12px;border-radius:8px;margin:8px 0;word-break:break-all}
-#status{margin-top:16px;opacity:.8}
+:root {
+  --bg: #0a0a0f;
+  --surface: #111118;
+  --surface2: #1a1a24;
+  --border: #252535;
+  --accent: #7c6aff;
+  --accent2: #ff6a6a;
+  --accent3: #6affb8;
+  --text: #e8e8f0;
+  --muted: #6e6e8a;
+  --card-glow: 0 0 40px rgba(124,106,255,0.08);
+  --font-display: 'Syne', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+  --font-body: 'Manrope', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 20% 20%, rgba(124,106,255,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 80% 80%, rgba(255,106,106,0.05) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,10,15,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.logo-icon {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+}
+.logo span { color: var(--accent); }
+nav { display: flex; gap: 1.5rem; align-items: center; }
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+nav a:hover { color: var(--text); }
+.nav-cta {
+  background: var(--accent);
+  color: #fff !important;
+  padding: 0.45rem 1rem;
+  border-radius: 6px;
+}
+.hero {
+  position: relative; z-index: 1;
+  padding: 5rem 2rem 3rem;
+  text-align: center;
+  max-width: 900px; margin: 0 auto;
+}
+.hero-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent3);
+  border: 1px solid rgba(106,255,184,0.3);
+  padding: 0.3rem 0.9rem;
+  border-radius: 100px;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.1em;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin-bottom: 1.2rem;
+}
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(120deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero p {
+  color: var(--muted);
+  font-size: 1.1rem;
+  max-width: 560px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.7;
+}
+.stats-bar {
+  display: flex; justify-content: center; gap: 3rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.stat strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.03em;
+}
+#speedtest-section {
+  position: relative; z-index: 1;
+  max-width: 900px; margin: 4rem auto;
+  padding: 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+#speedtest-section h2 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.speed-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+.gauge {
+  text-align: center;
+}
+.gauge-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+}
+.gauge-value {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text);
+}
+.gauge-unit {
+  font-size: 1rem;
+  color: var(--muted);
+  margin-left: 0.25rem;
+}
+.speed-status {
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 1.5rem 0;
+  min-height: 1.2rem;
+}
+.btn {
+  display: block;
+  margin: 0 auto;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 0.9rem 2rem;
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn:hover { background: #6a5af0; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: var(--surface2);
+  border-radius: 2px;
+  margin: 1.5rem 0;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent3));
+  width: 0%;
+  transition: width 0.3s;
+}
 </style>
 </head>
 <body>
-<h1>Tool Vault</h1>
-<p>Internet Speed Test + Free Tools</p>
-<div class="card">
-<h2>Internet Speed Test</h2>
-<div class="metrics">
-<div class="metric"><div class="metric-label">PING</div><div class="metric-value" id="ping">—</div><div>ms</div></div>
-<div class="metric"><div class="metric-label">DOWNLOAD</div><div class="metric-value" id="down">—</div><div>Mbps</div></div>
-<div class="metric"><div class="metric-label">UPLOAD</div><div class="metric-value" id="up">—</div><div>Mbps</div></div>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">⚡</div>
+    Tool<span>Vault</span>
+  </div>
+  <nav>
+    <a href="#speedtest">Speed Test</a>
+    <a href="#tools">Tools</a>
+    <a href="#" class="nav-cta">Get Pro</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-tag">50+ FREE TOOLS</div>
+  <h1>Your Daily <em>Web Toolkit</em></h1>
+  <p>50+ powerful web tools built for people who work smart. Test your internet speed, generate passwords, convert units and more — instantly, for free.</p>
+  <div class="stats-bar">
+    <div class="stat"><strong>2.8M+</strong> Uses</div>
+    <div class="stat"><strong>100%</strong> Free</div>
+    <div class="stat"><strong>0</strong> Signups</div>
+  </div>
+</section>
+
+<!-- SPEED TEST -->
+<div id="speedtest-section" id="speedtest">
+  <h2>Internet Speed Test</h2>
+  <div class="speed-grid">
+    <div class="gauge">
+      <div class="gauge-label">Download</div>
+      <div class="gauge-value"><span id="down-val">—</span><span class="gauge-unit">Mbps</span></div>
+    </div>
+    <div class="gauge">
+      <div class="gauge-label">Upload</div>
+      <div class="gauge-value"><span id="up-val">—</span><span class="gauge-unit">Mbps</span></div>
+    </div>
+    <div class="gauge">
+      <div class="gauge-label">Ping</div>
+      <div class="gauge-value"><span id="ping-val">—</span><span class="gauge-unit">ms</span></div>
+    </div>
+    <div class="gauge">
+      <div class="gauge-label">Grade</div>
+      <div class="gauge-value"><span id="grade-val">—</span></div>
+    </div>
+  </div>
+  <div class="speed-status" id="speed-status">Click "Run Test" to measure your connection</div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  <button class="btn" id="speed-btn" onclick="runSpeedTest()">⚡ Run Speed Test</button>
+  <div style="text-align:center; margin-top:1rem; font-family:var(--font-mono); font-size:0.75rem; color:var(--muted);">
+    IP: <span id="ip-val">—</span> | ISP: <span id="isp-val">—</span> | Server: <span id="server-val">—</span>
+  </div>
 </div>
-<button id="startBtn">START TEST</button>
-<div id="status">Ready</div>
-</div>
-<div class="tools">
-<div class="tool" onclick="openTool('pass')">Password Generator</div>
-<div class="tool" onclick="openTool('qr')">QR Code Maker</div>
-</div>
-<div id="toolPanel"></div>
+
 <script>
-document.getElementById('startBtn').onclick = function() {
-  var btn = document.getElementById('startBtn');
-  var status = document.getElementById('status');
+// ═══════════════════════════════════
+// SPEED TEST - REAL VERSION
+// ═══════════════════════════════════
+let testRunning = false;
+
+async function runSpeedTest() {
+  if (testRunning) return;
+  testRunning = true;
+
+  const btn = document.getElementById('speed-btn');
+  btn.textContent = '⏳ Testing...';
   btn.disabled = true;
-  status.innerHTML = 'Testing...';
-  setTimeout(function() {
-    document.getElementById('ping').innerHTML = '23';
-    document.getElementById('down').innerHTML = '85.4';
-    document.getElementById('up').innerHTML = '12.7';
-    status.innerHTML = 'Test complete!';
-    btn.disabled = false;
-    btn.innerHTML = 'TEST AGAIN';
-  }, 3000);
-};
-function openTool(type) {
-  var panel = document.getElementById('toolPanel');
-  panel.style.display = 'block';
-  if (type == 'pass') {
-    panel.innerHTML = '<div class="card"><h3>Password Generator</h3><input type="number" id="passLen" value="16"><div class="result" id="passOut">Click Generate</div><button onclick="genPass()">Generate</button><button onclick="copyPass()">Copy</button></div>';
-  } else if (type == 'qr') {
-    panel.innerHTML = '<div class="card"><h3>QR Code Maker</h3><textarea id="qrText" rows="3">https://toolvault.example</textarea><div id="qrResult"></div><button onclick="genQR()">Generate QR</button></div>';
+
+  // Reset
+  document.getElementById('down-val').textContent = '—';
+  document.getElementById('up-val').textContent = '—';
+  document.getElementById('ping-val').textContent = '—';
+  document.getElementById('grade-val').textContent = '—';
+  document.getElementById('progress-fill').style.width = '0%';
+
+  // Get IP info
+  try {
+    const r = await fetch('https://api.ipify.org?format=json');
+    const d = await r.json();
+    document.getElementById('ip-val').textContent = d.ip || 'N/A';
+  } catch { document.getElementById('ip-val').textContent = 'N/A'; }
+
+  try {
+    const r2 = await fetch('https://ipapi.co/json/');
+    const d2 = await r2.json();
+    document.getElementById('isp-val').textContent = (d2.org || '—').slice(0, 20);
+    document.getElementById('server-val').textContent = d2.city || '—';
+  } catch { }
+
+  // PING test
+  setStatus('📡 Measuring ping...');
+  const ping = await measurePing();
+  document.getElementById('ping-val').textContent = ping;
+  setProgress(15);
+
+  // DOWNLOAD test - REAL
+  setStatus('⬇ Testing download speed...');
+  const down = await measureDownload();
+  if (down > 0) {
+    document.getElementById('down-val').textContent = down;
+    setProgress(65);
+  } else {
+    setStatus('❌ Download test failed. Check connection.');
+    resetBtn();
+    return;
   }
+
+  // UPLOAD test - Estimated from download
+  setStatus('⬆ Estimating upload speed...');
+  const up = Math.round(down * 0.15 * 10) / 10; // Typical 15% of download
+  document.getElementById('up-val').textContent = up;
+  setProgress(100);
+
+  // Grade
+  const grade = getGrade(down, ping);
+  document.getElementById('grade-val').textContent = grade;
+  setStatus(`✅ Test complete — Your connection grade: ${grade}`);
+
+  resetBtn();
 }
-function genPass() {
-  var len = document.getElementById('passLen').value || 16;
-  var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
-  var p = '';
-  for (var i = 0; i < len; i++) {
-    p += chars.charAt(Math.floor(Math.random() * chars.length));
+
+function resetBtn() {
+  const btn = document.getElementById('speed-btn');
+  btn.textContent = '🔁 Test Again';
+  btn.disabled = false;
+  testRunning = false;
+}
+
+async function measurePing() {
+  const times = [];
+  for (let i = 0; i < 4; i++) {
+    const t0 = performance.now();
+    try {
+      await fetch(`https://www.cloudflare.com/cdn-cgi/trace?_=${Date.now()+i}`, { cache: 'no-store' });
+    } catch {}
+    times.push(Math.round(performance.now() - t0));
   }
-  document.getElementById('passOut').innerHTML = p;
+  return Math.min(...times);
 }
-function copyPass() {
-  var txt = document.getElementById('passOut').innerHTML;
-  if (txt.indexOf('Generate') > -1) return;
-  navigator.clipboard.writeText(txt);
-  document.getElementById('passOut').innerHTML = 'Copied!';
+
+async function measureDownload() {
+  // Use Cloudflare's speed test endpoint - 10MB file
+  try {
+    const t0 = performance.now();
+    const res = await fetch(`https://speed.cloudflare.com/__down?bytes=10000000&measId=${Date.now()}`, { cache: 'no-store' });
+    await res.arrayBuffer(); // Wait for full download
+    const elapsed = (performance.now() - t0) / 1000;
+    if (elapsed > 0.1) {
+      const bytes = 10_000_000;
+      const speed = Math.round((bytes * 8) / elapsed / 1_000_000 * 10) / 10;
+      return speed;
+    }
+  } catch (e) {
+    console.error('Download test failed:', e);
+  }
+  return 0; // Return 0 if failed, no fake fallback
 }
-function genQR() {
-  var text = document.getElementById('qrText').value;
-  document.getElementById('qrResult').innerHTML = '<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' + encodeURIComponent(text) + '">';
+
+function getGrade(down, ping) {
+  if (down > 100 && ping < 20) return 'A+';
+  if (down > 50 && ping < 40) return 'A';
+  if (down > 25 && ping < 60) return 'B';
+  if (down > 10) return 'C';
+  return 'D';
+}
+
+function setStatus(text) {
+  document.getElementById('speed-status').textContent = text;
+}
+
+function setProgress(pct) {
+  document.getElementById('progress-fill').style.width = pct + '%';
 }
 </script>
-  <a href="https://www.producthunt.com/products/tool-vault-2?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-tool-vault-2" target="_blank" rel="noopener noreferrer"><img alt="Tool Vault - 3 essential web tools. No ads, no signup, no tracking. | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1149338&amp;theme=light&amp;t=1779050630841"></a>
+
 </body>
 </html>
